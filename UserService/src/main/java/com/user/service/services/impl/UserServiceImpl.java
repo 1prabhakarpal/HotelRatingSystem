@@ -41,7 +41,7 @@ public class UserServiceImpl  implements UserService {
     public List<User> getAllUser() {
         List<User> listOfUsers = userRepository.findAll();
         for(User user : listOfUsers) {
-            Rating [] ratingArray =  restTemplate.getForObject("http://localhost:8083/rating/user/" + user.getUserId(),Rating[].class);
+            Rating [] ratingArray =  restTemplate.getForObject("http://RATINGSERVICES/rating/user/" + user.getUserId(),Rating[].class);
             logger.info("",ratingArray);
 
             List<Rating> ratings = Arrays.stream(ratingArray).toList();
@@ -49,8 +49,7 @@ public class UserServiceImpl  implements UserService {
             List<Rating> ratingList =ratings.stream().map(rating ->{
                 //api call to hotel service to get the hotel
                 //http://localhost:8082/hotels
-                System.out.println("http://localhost:8802/hotels/"+rating.getHotelId());
-                ResponseEntity<Hotel> forEntity =  restTemplate.getForEntity("http://localhost:8082/hotels/"+rating.getHotelId(), Hotel.class);
+                ResponseEntity<Hotel> forEntity =  restTemplate.getForEntity("http://HOTELSERVICE/hotels/"+rating.getHotelId(), Hotel.class);
                 Hotel hotel = forEntity.getBody();
                 logger.info("Response Status Code: ",forEntity.getStatusCode());
                 //set the hotel to rating
@@ -70,7 +69,7 @@ public class UserServiceImpl  implements UserService {
         User user = userRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("User with given id not found on server !! :"+id));
 
         //fetch ratings of above user from RATING-SERVICE
-        Rating [] ratingArray =  restTemplate.getForObject("http://localhost:8083/rating/user/" + user.getUserId(),Rating[].class);
+        Rating [] ratingArray =  restTemplate.getForObject("http://RATINGSERVICES/rating/user/" + user.getUserId(),Rating[].class);
         logger.info("",ratingArray);
 
         List<Rating> ratings = Arrays.stream(ratingArray).toList();
@@ -79,7 +78,7 @@ public class UserServiceImpl  implements UserService {
             //api call to hotel service to get the hotel
             //http://localhost:8082/hotels
             System.out.println("http://localhost:8802/hotels/"+rating.getHotelId());
-            ResponseEntity<Hotel> forEntity =  restTemplate.getForEntity("http://localhost:8082/hotels/"+rating.getHotelId(), Hotel.class);
+            ResponseEntity<Hotel> forEntity =  restTemplate.getForEntity("http://HOTELSERVICE/hotels/"+rating.getHotelId(), Hotel.class);
             Hotel hotel = forEntity.getBody();
             logger.info("Response Status Code: ",forEntity.getStatusCode());
             //set the hotel to rating
