@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.hotel.service</groupId>
-	<artifactId>hotelService</artifactId>
+	<artifactId>HotelService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>hotelService</name>
 	<description>This service is for storing data of hotels</description>
